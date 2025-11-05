@@ -29,15 +29,16 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-
+# Список сторонних приложений
 THIRD_PARTY_APPS = ['rest_framework', 'corsheaders']
-
+# Список локальных приложений
 LOCAL_APPS = []
-
+# Объединенный список всех приложений
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
-
+# Middleware configuration
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -47,8 +48,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#корневой файл маршрутов
 ROOT_URLCONF = 'notes_project.urls'
 
+#Настройки шаблонов
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -64,16 +67,24 @@ TEMPLATES = [
     },
 ]
 
+#
 WSGI_APPLICATION = 'notes_project.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DB configuration
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('Postgres_DB', default='modelhub'),
+        'USER': config('Postgres_USER', default='postgres'),
+        'PASSWORD': config('Postgres_PASSWORD', default='password'),
+        'HOST': config('Postgres_HOST', default='localhost'),
+        'PORT': config('Postgres_PORT', default='5432'),
+        # Включает атомарные запросы для обеспечения целостности данных
+        'ATOMIC_REQUESTS': True,
     }
 }
 
